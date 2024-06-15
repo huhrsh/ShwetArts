@@ -1,10 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { Link, useNavigate } from 'react-router-dom';
+import { useUser } from '../context';
 
 const CustomSlider = ({ images }) => {
   const [scale, setScale] = useState(1);
+  const {setLoading}=useUser()
+  const navigate=useNavigate()
+  const [isAnimating, setIsAnimating] = useState(false);
   const sliderRef = useRef(null);
 
   const settings = {
@@ -14,39 +19,53 @@ const CustomSlider = ({ images }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     beforeChange: (_, next) => {
-      // Scale down the image before changing slides
+      setIsAnimating(true);
       setTimeout(() => {
-        // Slide to the next image after a delay
         sliderRef.current.slickGoTo(next);
       }, 600);
     },
-
     afterChange: () => {
-      // Scale up the new image after changing slides
       setTimeout(() => {
         setScale(1);
+        setIsAnimating(false);
       }, 400);
     }
   };
 
   function goNext() {
-    setScale(0.8)
-    setTimeout(() => {
-      sliderRef.current.slickNext()
-    }, 800)
+    if (!isAnimating) {
+      setScale(0.8);
+      setIsAnimating(true);
+      setTimeout(() => {
+        sliderRef.current.slickNext();
+      }, 800);
+    }
   }
+
   function goPrev() {
-    setScale(0.8)
-    setTimeout(() => {
-      sliderRef.current.slickPrev()
-    }, 800)
+    if (!isAnimating) {
+      setScale(0.8);
+      setIsAnimating(true);
+      setTimeout(() => {
+        sliderRef.current.slickPrev();
+      }, 800);
+    }
   }
+
+  async function handleClick(e, link){
+    e.preventDefault()
+    setLoading(true)
+    setTimeout(()=>{
+        navigate('gallery/'+link)
+        setLoading(false)
+    },1000)
+}
 
   return (
     <div className="fixed h-screen w-screen top-0">
       <Slider ref={sliderRef} {...settings} className="" style={{ maxHeight: '100%' }}>
         {images.map((image, index) => (
-          <div key={index} className="bg-white flex items-center justify-center h-screen w-screen" style={{ maxHeight: '100%' }}>
+          <Link onClick={(e)=>{handleClick(e,image.text)}} to={'gallery/'+image.text} key={index} className="bg-white flex items-center justify-center h-screen w-screen" style={{ maxHeight: '100%' }}>
             <div className="relative w-full h-full">
               <img
                 className='w-full aspect-[16/9]'
@@ -54,21 +73,29 @@ const CustomSlider = ({ images }) => {
                 alt={`Slide ${index + 1}`}
                 style={{ transform: `scale(${scale})`, transition: 'transform 0.6s ease-in-out', maxHeight: '100%' }}
               />
-              <p className='text-white text-center w-full text-9xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-[outfit] antialiased ' style={{ opacity: `${scale === 1 ? "1" : "0"}`, transition: 'all 0.6s ease-in-out', WebkitTextStroke: '1.5px #000', WebkitTextFillColor: '#ffffff10' }}>
+              <p className='capitalize text-white text-center w-full text-9xl absolute overflow-hidden top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-shrink-0 whitespace-nowrap antialiased pb-6 bg-black bg-opacity-50' style={{ opacity: `${scale === 1 ? "1" : "0"}`, width: `${scale === 1?"100%":"80%"}` ,transition: 'all 0.6s ease-in-out' }}>
                 {image.text}
               </p>
-
-              {/* <p className='text-white text-center w-full text-9xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-[outfit] antialiased ' style={{
-                opacity: `${scale == 1 ? "1" : "0"}`, transition: 'all 0.6s ease-in-out',
-                textShadow: '-1.5px -1.5px 0 #333, 1.5px -1.5px 0 #333, -1.5px 1.5px 0 #333, 1.5px 1.5px 0 #333'
-                // textShadow: '1.5px 1.5px 0 #333' 
-              }}>{image.text}</p> */}
             </div>
-          </div>
+          </Link>
         ))}
       </Slider>
-      <button className="prev-button absolute top-1/2 transform -translate-y-1/2 left-4 bg-white bg-opacity-50 text-black px-4 py-2 rounded-full" onClick={() => goPrev()}>&#10094;</button>
-      <button className="next-button absolute top-1/2 transform -translate-y-1/2 right-4 bg-white bg-opacity-50 text-black px-4 py-2 rounded-full" onClick={() => goNext()}>&#10095;</button>
+      <button 
+        className="prev-button absolute top-1/2 transform -translate-y-1/2 left-4 bg-white bg-opacity-50 text-black px-4 py-2 rounded-full"
+        onClick={goPrev}
+        disabled={isAnimating}
+        style={{ cursor: isAnimating ? 'not-allowed' : 'pointer' }}
+      >
+        &#10094;
+      </button>
+      <button 
+        className="next-button absolute top-1/2 transform -translate-y-1/2 right-4 bg-white bg-opacity-50 text-black px-4 py-2 rounded-full"
+        onClick={goNext}
+        disabled={isAnimating}
+        style={{ cursor: isAnimating ? 'not-allowed' : 'pointer' }}
+      >
+        &#10095;
+      </button>
     </div>
   );
 };

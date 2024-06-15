@@ -4,5 +4,82 @@
 
 @font-face {
   font-family: "ephesis";
-  src: url('./Assets/Ephesis-Regular.ttf');
+  src: url('./Assets/Fonts/Ephesis-Regular.ttf');
+}
+
+@font-face{
+  font-family: 'outfit';
+  src: url('./Assets/Fonts/Outfit-VariableFont_wght.ttf');
+}
+
+*{
+  @apply font-[outfit];
+}
+/* Blob.css */
+@keyframes blob {
+  0%, 100% {
+    border-radius: 40% 60% 70% 30% / 30% 50% 70% 60%;
+    transform: rotate(0deg);
+  }
+  50% {
+    border-radius: 70% 40% 50% 60% / 60% 70% 30% 50%;
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeDown {
+  to {
+    opacity: 0;
+    transform: translateY(100%);
+    visibility: hidden;
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1)   translateY(100%);;
+  }
+  100% {
+    transform: scale(10)   translateY(0%);; /* Adjust this value to control the final size */
+  }
+}
+
+.loading-container {
+  /* transition: opacity 1s ease-out; */
+  /* transition: height 1s ease-out; */
+  overflow: hidden; /* Ensure blobs do not cause scrollbars */
+}
+
+.blob {
+  border-radius: 50%;
+  position: absolute;
+  opacity: 0.6;
+  animation: scale 2.3s forwards ease-out;
+  /* animation: blob 2.3s infinite ease-in-out, scale 2.3s forwards ease-out; */
+}
+
+/* .bg-gradient{
+  background: linear-gradient(to left, #38bdf8bb, #a855f7bb, #e11d48bb, #a855f7bb,#38bdf8bb);
+} */
+
+.blob:nth-child(1) {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, #38bdf8, #a855f7, #e11d48);
+  bottom: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+  /* transform: translate(-50%,100%); */
+}
+
+.blob:nth-child(2) {
+  width: 250px;
+  height: 250px;
+  background: linear-gradient(135deg, #ff9900, #3399ff, #cc33ff);
+  top: 90%;
+  left: 90%;
+}
+
+.fade-out {
+  animation: fadeDown 1s forwards;
 }
