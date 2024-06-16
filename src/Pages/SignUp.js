@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, deleteUser, signInWithPopup, signOut } 
 import { auth, db, provider } from "../firebase";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import signUpImage from "../Assets/Images/Origami bird-rafiki.png"
+import signUpImage from "../Assets/Images/Making art-pana (1).png"
 import { Link, useNavigate } from "react-router-dom";
 import eye from "../Assets/Images/eye.png"
 import eyebrow from "../Assets/Images/eyebrow.png"
@@ -117,20 +117,19 @@ export default function SignUp() {
                     if (userSnap.exists()) {
                         setUser({ uid: user.uid, ...userSnap.data() })
                         delaySetLoading()
-                        navigate('/dashboard/general')
+                        navigate('/')
                     }
                     else if(adminSnap.exists()){
-                        setUser({uid:user.uid, ...adminSnap.data(), admin:true})
+                        setUser({uid:user.uid, ...adminSnap.data()})
                         delaySetLoading()
-                        navigate('/admin-dashboard')
+                        navigate('/')
                     }
                     else {
                         const userDoc = await setDoc(doc(db, 'users', user.uid), {
                             name: user.displayName,
                             email: user.email,
-                            websiteStatus: "inactive"
                         })
-                        setUser({ uid: user.uid, name: user.displayName, email: user.email, websiteStatus: "inactive" })
+                        setUser({ uid: user.uid, name: user.displayName, email: user.email })
                     }
                 }
                 catch (error) {
@@ -188,7 +187,7 @@ export default function SignUp() {
                     </div>
                     <Link onClick={(e)=>{handleClick(e)}} className="text-lg font-normal text-gray-600">Already have an account? Sign in here! </Link>
                 </form>
-                <img className='h-full aspect-square object-contain max-sm:hidden' alt='hi' src={signUpImage} />
+                <img className='h-full aspect-square object-contain max-sm:hidden p-10' alt='hi' src={signUpImage} />
             </main>
         </>
     )

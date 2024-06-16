@@ -26,7 +26,6 @@ export const UserProvider = ({ children }) => {
             setCheck(false);
         },3000)
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            console.log(user)
             if (user) {
                 const docSnap = await getDoc(doc(db, "users", user.uid))
                 if (docSnap.exists()) {
@@ -36,7 +35,7 @@ export const UserProvider = ({ children }) => {
                 else {
                     const adminDocSnap = await getDoc(doc(db, "admin", user.uid))
                     if (adminDocSnap.exists()) {
-                        setUser({ uid: user.uid, ...adminDocSnap.data() });
+                        setUser({ uid: user.uid, ...adminDocSnap.data()});
                         setLoadingDone(true)
                     }
                 }

@@ -5,8 +5,6 @@ import { useUser } from '../context';
 const Loading = () => {
     const [fade, setFade] = useState(false);
     const { loading } = useUser()
-    console.log(loading)
-
     // useEffect(() => {
     //     if (!loading) {
     //         const timer = setTimeout(() => {

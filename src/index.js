@@ -10,6 +10,7 @@ import { UserProvider } from './context';
 import SignIn from './Pages/SignIn';
 import Contacts from './Pages/Contacts';
 import Store from './Pages/Store';
+import Courses from './Pages/Courses';
 
 const router = createBrowserRouter([
   {
@@ -20,8 +21,8 @@ const router = createBrowserRouter([
       { path: "gallery/:style", element: <Gallery /> },
       { path: 'sign-up', element: <SignUp /> },
       {path:'sign-in', element:<SignIn/>},
+      {path:'courses', element:<Courses/>},
       {path:'contacts', element:<Contacts/>},
-      {path:'gallery', element:<Gallery/>},
       {path:'store', element:<Store/>},
     ]
   },
