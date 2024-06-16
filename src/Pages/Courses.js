@@ -16,6 +16,7 @@ export default function Courses() {
         title: '',
         description: '',
         available: true,
+        online: true,
         imageFile: null
     });
 
@@ -43,9 +44,7 @@ export default function Courses() {
             toast.warn("Please fill in all fields.");
             return;
         }
-
-        setLoading(true);
-
+        setLoading(true)
         try {
             const storageRef = ref(storage, `courses/${newCourse.imageFile.name}`);
             await uploadBytes(storageRef, newCourse.imageFile);
@@ -55,6 +54,7 @@ export default function Courses() {
                 title: newCourse.title,
                 description: newCourse.description,
                 available: newCourse.available,
+                online: newCourse.online,
                 imageUrl: downloadURL
             });
             setNewCourse({ title: '', description: '', available: true, imageFile: null });
@@ -63,8 +63,12 @@ export default function Courses() {
             console.error("Error adding course:", error);
             toast.error("Error adding course.");
         }
+        finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 700)
+        }
 
-        setLoading(false);
     };
 
     const handleEditCourse = async () => {
@@ -88,6 +92,7 @@ export default function Courses() {
                 title: selectedCourse.title,
                 description: selectedCourse.description,
                 available: selectedCourse.available,
+                online: selectedCourse.online,
                 imageUrl: downloadURL
             });
             setSelectedCourse(null);
@@ -97,8 +102,9 @@ export default function Courses() {
             console.error("Error updating course:", error);
             toast.error("Error updating course.");
         }
-
-        setLoading(false);
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000)
     };
 
     const handleDeleteCourse = async (course) => {
@@ -120,39 +126,64 @@ export default function Courses() {
             console.error("Error deleting course:", error);
             toast.error("Error deleting course.");
         }
-        setLoading(false);
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000)
     };
 
+
+    const [currentAnimation, setCurrentAnimation] = useState('animate__slideInUp')
+
+    function handleCloseButton() {
+        setCurrentAnimation('animate__slideOutDown')
+        setTimeout(() => {
+            setShowPopup(false);
+            setSelectedCourse(null);
+            setCurrentAnimation("animate__slideInUp")
+        }, 800)
+    }
+
+
     return (
-        <section className="py-6 px-12 flex flex-col ">
+        <section className="py-6 pb-32 px-12 flex flex-col ">
             {user?.admin && (
-                <div className='py-3 mb-5 flex flex-col gap-2'>
+                <div className='py-3 pt-0 mb-8 flex flex-col gap-2'>
                     <h2 className="py-1 font-extrabold text-4xl text-white"
                         style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
                     >Add New Course:</h2>
-                    <div className='flex gap-2 items-center'>
-                        <input
-                            type="text"
-                            placeholder="Title"
-                            className="border-gray-300 text-lg border rounded-md px-2 py-2"
-                            value={newCourse.title}
-                            onChange={(e) => setNewCourse({ ...newCourse, title: e.target.value })}
-                        />
-                        <input
+                    <div className='flex gap-2 items-start justify-center flex-col'>
+                        <div className='flex w-full gap-4'>
+                            <input
+                                type="text"
+                                placeholder="Title"
+                                className="border-gray-300 text-lg border rounded-md px-2 py-2 outline-none transition-all duration-200 ease-in-out hover:shadow-lg w-1/3"
+                                value={newCourse.title}
+                                onChange={(e) => setNewCourse({ ...newCourse, title: e.target.value })}
+                            />
+                            <label className="flex items-center gap-2 w-1/4">
+                                <input
+                                    type="checkbox"
+                                    checked={newCourse.available}
+                                    onChange={(e) => setNewCourse({ ...newCourse, available: e.target.checked })}
+                                />
+                                Currently Available
+                            </label>
+                            <label className="flex items-center gap-2 w-1/4">
+                                <input
+                                    type="checkbox"
+                                    checked={newCourse.online}
+                                    onChange={(e) => setNewCourse({ ...newCourse, online: e.target.checked })}
+                                />
+                                Online
+                            </label>
+                        </div>
+                        <textarea
                             type="text"
                             placeholder="Description"
-                            className="border-gray-300 text-lg border rounded-md px-2 py-2"
+                            className="border-gray-300 text-lg border rounded-md px-2 py-2 outline-none w-3/4 min-h-32"
                             value={newCourse.description}
                             onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
                         />
-                        <label className="flex items-center gap-2">
-                            <input
-                                type="checkbox"
-                                checked={newCourse.available}
-                                onChange={(e) => setNewCourse({ ...newCourse, available: e.target.checked })}
-                            />
-                            Available
-                        </label>
                         <input
                             type="file"
                             className="border-gray-300 border rounded-md px-2 py-1.5"
@@ -162,7 +193,7 @@ export default function Courses() {
                             className={`px-4 py-2 relative capitalize rounded-md overflow-hidden cursor-pointer bg-gray-200 hover:bg-transparent hover:text-white transition-all ease-in-out duration-200 before:absolute before:w-0 before:h-full before:bg-black before:top-0 before:hover:left-0 before:-z-10 before:left-[50%] before:hover:w-full before:transition-all before:duration-200 before:ease-in-out before:hover:bg-opacity-90
                 `}
                             onClick={handleAddCourse}
-                            disabled={!newCourse.title || !newCourse.description || !newCourse.imageFile}
+                        // disabled={!newCourse.title || !newCourse.description || !newCourse.imageFile}
                         >
                             Add Course
                         </button>
@@ -171,11 +202,11 @@ export default function Courses() {
             )}
             <div className="grid grid-cols-3 gap-4">
                 {courses.map((course) => (
-                    <div key={course.id} className={`border rounded-md overflow-hidden relative ${!course.available ? 'opacity-50' : ''}`}>
+                    <div key={course.id} className={`border rounded-md gap-2 rounded-bl-none rounded-br-none  overflow-hidden relative ${!course.available ? 'bg-gray-100 cursor-not-allowed' : ''}`}>
                         {user?.admin && (
                             <div className="absolute top-2 right-2 flex gap-2">
                                 <button
-                                    className="bg-blue-600 text-white px-2 py-1 rounded-md"
+                                    className="bg-white text-black px-2 py-1 rounded-md z-10 hover:shadow-lg"
                                     onClick={() => {
                                         setSelectedCourse(course);
                                         setShowPopup(true);
@@ -184,7 +215,7 @@ export default function Courses() {
                                     Edit
                                 </button>
                                 <button
-                                    className="bg-red-600 text-white px-2 py-1 rounded-md"
+                                    className="bg-black text-white px-2 py-1 rounded-md z-10 hover:shadow-lg"
                                     onClick={() => handleDeleteCourse(course)}
                                 >
                                     Delete
@@ -194,39 +225,43 @@ export default function Courses() {
                         <img
                             src={course.imageUrl}
                             alt={course.title}
-                            className="w-full object-cover cursor-pointer hover:scale-110 transition-all duration-200 ease-in"
+                            className={`w-full object-cover transition-all duration-200 ease-in`}
                         />
                         <div className="p-4">
-                            <h3 className="font-bold text-xl mb-2">{course.title}</h3>
+                            <h3 className="font-extrabold text-3xl text-white"
+                                style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
+                            >{course.title}</h3>
                             <p>{course.description}</p>
-                            <p className="mt-2 font-semibold">Status: {course.available ? 'Available' : 'Unavailable'}</p>
+                            <div className='flex justify-between'>
+                                <p className="text-gray-800 font-medium">{course.available ? 'Available' : 'Unavailable'}</p>
+                                <p className="text-gray-800 font-medium">{course.online ? 'Online' : 'Offline'}</p>
+                            </div>
                         </div>
                     </div>
                 ))}
             </div>
             {showPopup && selectedCourse && (
-                <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-90 flex justify-center items-center z-50 transition-opacity duration-300 opacity-0 animate-fade-in">
-                    <div className="max-w-3xl w-full bg-white p-4 rounded-md relative">
+                <div className={`fixed top-0 left-0 w-full h-full bg-white bg-opacity-90 flex justify-center items-center z-50 animate__animated ${currentAnimation}`}>
+                    <div className="max-w-3xl w-full bg-white border border-gray-900 p-4 rounded-md">
                         <button
-                            className="absolute top-2 right-2 bg-gray-800 text-white px-3 py-1 rounded-md hover:bg-gray-700"
+                            className={`absolute top-2 right-2 bg-black text-white px-3 py-1 rounded-md hover:shadow-lg`}
                             onClick={() => {
-                                setShowPopup(false);
-                                setSelectedCourse(null);
+                                handleCloseButton()
                             }}
                         >
                             Close
                         </button>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2 w-full ">
                             <input
                                 type="text"
                                 placeholder="Title"
-                                className="border-gray-300 text-lg border rounded-md px-2 py-2"
+                                className="border-gray-300 text-lg border rounded-md px-2 py-2 w-full"
                                 value={selectedCourse.title}
                                 onChange={(e) => setSelectedCourse({ ...selectedCourse, title: e.target.value })}
                             />
                             <input
                                 type="text"
-                                placeholder="Description"                                className="border-gray-300 text-lg border rounded-md px-2 py-2"
+                                placeholder="Description" className="border-gray-300 text-lg border rounded-md px-2 py-2"
                                 value={selectedCourse.description}
                                 onChange={(e) => setSelectedCourse({ ...selectedCourse, description: e.target.value })}
                             />
@@ -238,6 +273,14 @@ export default function Courses() {
                                 />
                                 Available
                             </label>
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedCourse.online}
+                                    onChange={(e) => setSelectedCourse({ ...selectedCourse, online: e.target.checked })}
+                                />
+                                Online
+                            </label>
                             <div className="flex gap-2 items-center">
                                 <input
                                     type="file"
@@ -245,7 +288,7 @@ export default function Courses() {
                                     onChange={(e) => setNewCourse({ ...newCourse, imageFile: e.target.files[0] })}
                                 />
                                 <button
-                                    className={`px-4 py-2 relative capitalize rounded-md overflow-hidden cursor-pointer bg-gray-200 hover:bg-transparent hover:text-white transition-all ease-in-out duration-200 before:absolute before:w-0 before:h-full before:bg-black before:top-0 before:hover:left-0 before:-z-10 before:left-[50%] before:hover:w-full before:transition-all before:duration-200 before:ease-in-out before:hover:bg-opacity-90
+                                    className={`px-4 py-2 relative capitalize rounded-md overflow-hidden cursor-pointer bg-gray-200 hover:bg-transparent z-0 hover:text-white transition-all ease-in-out duration-200 before:absolute before:w-0 before:h-full before:bg-black before:top-0 before:hover:left-0 before:-z-10 before:left-[50%] before:hover:w-full before:transition-all before:duration-200 before:ease-in-out before:hover:bg-opacity-90
                                     `}
                                     onClick={handleEditCourse}
                                 >

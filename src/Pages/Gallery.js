@@ -5,6 +5,7 @@ import { db, storage } from '../firebase';
 import { addDoc, collection, getDocs, query, where, deleteDoc, doc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes, deleteObject } from 'firebase/storage';
 import { toast } from 'react-toastify';
+import 'animate.css';
 
 export default function Gallery() {
     const { style: currentStyle } = useParams();
@@ -100,8 +101,18 @@ export default function Gallery() {
         },700)
     };
 
+    const [currentAnimation, setCurrentAnimation]=useState('animate__slideInUp')
+
+    function handleCloseButton(){
+        setCurrentAnimation('animate__slideOutDown')
+        setTimeout(()=>{
+            setShowPopup(false);
+            setCurrentAnimation("animate__slideInUp")
+        },800)
+    }
+
     return (
-        <section className="py-6 px-12 flex flex-col ">
+        <section className="py-6 px-12 flex flex-col pb-32">
             <div className="flex justify-between items-center mb-4">
                 <div className="flex gap-4">
                     {styles.map((name, index) => (
@@ -155,13 +166,14 @@ export default function Gallery() {
                     <div key={image.id} className="masonry-item border rounded-md overflow-hidden relative group">
                         {user?.admin && (
                             <button
-                                className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded-md opacity-0 z-30 group-hover:opacity-100 transition-opacity text-lg duration-200"
+                                className="absolute top-2 right-2 bg-black text-white px-2 py-1 rounded-md opacity-0 z-30 group-hover:opacity-100 transition-opacity text-lg duration-200"
                                 onClick={() => handleDeleteImage(image)}
                             >
                                 Delete
                             </button>
                         )}
                         <img
+                            loading='lazy'
                             src={image.url}
                             alt={image.id}
                             className="w-full object-cover cursor-pointer hover:scale-110 transition-all duration-200 ease-in"
@@ -171,12 +183,12 @@ export default function Gallery() {
                 ))}
             </div>
             {showPopup && (
-                <div className="fixed top-0 left-0 w-full h-full bg-white bg-opacity-90 flex justify-center items-center z-50 transition-opacity duration-300 opacity-0 animate-fade-in">
-                    <div className="max-w-5xl w-full relative">
+                <div className={`fixed top-0 left-0 w-full h-full bg-white bg-opacity-90 flex justify-center items-center z-50 duration-300 animate__animated ${currentAnimation} `} onAnimationEnd={()=>setCurrentAnimation("")}>
+                    <div className="max-w-5xl w-full ">
                         <img src={selectedImage.url} alt={selectedImage.id} className="max-w-full max-h-full object-contain" />
                         <button
-                            className="absolute top-2 right-2 bg-white text-gray-800 px-3 py-1 rounded-md hover:bg-gray-200"
-                            onClick={() => setShowPopup(false)}
+                            className="absolute text-lg top-2 right-4 bg-black text-white px-3 py-1 rounded-md hover:shadow-lg"
+                            onClick={() => handleCloseButton()}
                         >
                             Close
                         </button>

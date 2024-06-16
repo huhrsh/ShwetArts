@@ -69,24 +69,24 @@ const Header = () => {
                 </Link>
                 <div className="flex rounded-full gap-4 py-0.5 px-0.5 text-white text-2xl font-medium">
                     {links.map((link, index) => (
-                        <Link onClick={(e) => { handleClick(e, link.to) }} className="border-2 border-transparent font-extrabold hover:border-white hover:bg-sky-400 hover:bg-opacity-60 transition-all duration-200 px-4 py-1 rounded-full"
+                        <Link onClick={(e) => { handleClick(e, link.to) }} className="border-2 border-transparent font-extrabold hover:border-[#333] hover:bg-white hover:bg-opacity-40 transition-all duration-200 px-4 py-1 rounded-full"
                             style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
                             to={link.to} key={index}>{link.text}</Link>
                     ))}
                     {user ?
                         signedInLinks.map((link, index) => (
-                            <Link onClick={(e) => { handleClick(e, link.to) }} className="border-2 border-transparent font-extrabold hover:border-white hover:bg-sky-400 hover:bg-opacity-60 transition-all duration-200 px-4 py-1 rounded-full"
+                            <Link onClick={(e) => { handleClick(e, link.to) }} className="border-2 border-transparent font-extrabold hover:border-[#333] hover:bg-white hover:bg-opacity-40 transition-all duration-200 px-4 py-1 rounded-full"
                                 style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
                                 to={link.to} key={index}>{link.text}</Link>
                         )) : signedOutLinks.map((link, index) => (
-                            <Link onClick={(e) => { handleClick(e, link.to) }} className="border-2 border-transparent font-extrabold hover:border-white hover:bg-sky-400 hover:bg-opacity-60 transition-all duration-200 px-4 py-1 rounded-full"
+                            <Link onClick={(e) => { handleClick(e, link.to) }} className="border-2 border-transparent font-extrabold hover:border-[#333] hover:bg-white hover:bg-opacity-40 transition-all duration-200 px-4 py-1 rounded-full"
                                 style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
                                 to={link.to} key={index}>{link.text}</Link>
                         ))}
                 </div>
             </header>
-            <Outlet />
             <ToastContainer autoClose={2000} />
+            <Outlet />
         </>
     )
 }
