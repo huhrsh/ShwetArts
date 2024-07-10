@@ -16,7 +16,8 @@ export default function Courses() {
         title: '',
         description: '',
         available: true,
-        online: true,
+        online: false,
+        offline: false,
         imageFile: null
     });
 
@@ -55,9 +56,10 @@ export default function Courses() {
                 description: newCourse.description,
                 available: newCourse.available,
                 online: newCourse.online,
+                offline: newCourse.offline,
                 imageUrl: downloadURL
             });
-            setNewCourse({ title: '', description: '', available: true, imageFile: null });
+            setNewCourse({ title: '', description: '', available: true, online: false, offline: false, imageFile: null });
             toast.success("Course added successfully!");
         } catch (error) {
             console.error("Error adding course:", error);
@@ -93,6 +95,7 @@ export default function Courses() {
                 description: selectedCourse.description,
                 available: selectedCourse.available,
                 online: selectedCourse.online,
+                offline: selectedCourse.offline,
                 imageUrl: downloadURL
             });
             setSelectedCourse(null);
@@ -131,7 +134,6 @@ export default function Courses() {
         }, 1000)
     };
 
-
     const [currentAnimation, setCurrentAnimation] = useState('animate__slideInUp')
 
     function handleCloseButton() {
@@ -142,7 +144,6 @@ export default function Courses() {
             setCurrentAnimation("animate__slideInUp")
         }, 800)
     }
-
 
     return (
         <section className="py-6 pb-32 px-12 flex flex-col ">
@@ -176,6 +177,14 @@ export default function Courses() {
                                 />
                                 Online
                             </label>
+                            <label className="flex items-center gap-2 w-1/4">
+                                <input
+                                    type="checkbox"
+                                    checked={newCourse.offline}
+                                    onChange={(e) => setNewCourse({ ...newCourse, offline: e.target.checked })}
+                                />
+                                Offline
+                            </label>
                         </div>
                         <textarea
                             type="text"
@@ -202,7 +211,7 @@ export default function Courses() {
             )}
             <div className="grid grid-cols-3 gap-4">
                 {courses.map((course) => (
-                    <div key={course.id} className={`border rounded-md gap-2 rounded-bl-none rounded-br-none  overflow-hidden relative ${!course.available ? 'bg-gray-100 cursor-not-allowed' : ''}`}>
+                    <div key={course.id} className={`flex flex-col h-full border rounded-md gap-2 rounded-bl-none rounded-br-none overflow-hidden relative ${!course.available ? 'bg-gray-100 cursor-not-allowed' : ''}`}>
                         {user?.admin && (
                             <div className="absolute top-2 right-2 flex gap-2">
                                 <button
@@ -227,14 +236,17 @@ export default function Courses() {
                             alt={course.title}
                             className={`w-full object-cover transition-all duration-200 ease-in`}
                         />
-                        <div className="p-4">
-                            <h3 className="font-extrabold text-3xl text-white"
-                                style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
-                            >{course.title}</h3>
-                            <p>{course.description}</p>
-                            <div className='flex justify-between'>
+                        <div className="p-4 flex flex-col h-full justify-between">
+                            <div>
+                                <h3 className="font-extrabold text-3xl text-white"
+                                    style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
+                                >{course.title}</h3>
+                                <p>{course.description}</p>
+                            </div>
+                            <div className='flex justify-between  justify-self-end'>
                                 <p className="text-gray-800 font-medium">{course.available ? 'Available' : 'Unavailable'}</p>
-                                <p className="text-gray-800 font-medium">{course.online ? 'Online' : 'Offline'}</p>
+                                <p className="text-gray-800 font-medium">{course.online && course.offline ? 'Online + Offline' :
+                                    course.online ? 'Online' : 'Offline'}</p>
                             </div>
                         </div>
                     </div>
@@ -281,6 +293,14 @@ export default function Courses() {
                                 />
                                 Online
                             </label>
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedCourse.offline}
+                                    onChange={(e) => setSelectedCourse({ ...selectedCourse, offline: e.target.checked })}
+                                />
+                                Offline
+                            </label>
                             <div className="flex gap-2 items-center">
                                 <input
                                     type="file"
@@ -302,4 +322,3 @@ export default function Courses() {
         </section>
     );
 }
-

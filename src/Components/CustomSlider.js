@@ -65,10 +65,10 @@ const CustomSlider = ({ images }) => {
     <div className="fixed h-screen w-screen top-0">
       <Slider ref={sliderRef} {...settings} className="" style={{ maxHeight: '100%' }}>
         {images.map((image, index) => (
-          <Link onClick={(e)=>{handleClick(e,image.text)}} to={'gallery/'+image.text} key={index} className="bg-white flex items-center justify-center h-screen w-screen" style={{ maxHeight: '100%' }}>
+          <Link onClick={(e)=>{handleClick(e,image.text)}} to={'gallery/'+(image.text).toLowerCase()} key={index} className="bg-white flex items-center justify-center h-screen w-screen" style={{ maxHeight: '100%' }}>
             <div className="relative w-full h-full">
               <img
-                className='w-full aspect-[16/9]'
+                className='w-full aspect-[16/9] object-cover'
                 src={image.src}
                 alt={`Slide ${index + 1}`}
                 style={{ transform: `scale(${scale})`, transition: 'transform 0.6s ease-in-out', maxHeight: '100%' }}

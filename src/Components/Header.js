@@ -11,7 +11,7 @@ const Header = () => {
     const navigate = useNavigate()
     const links = [
         { to: "/gallery/all", text: "Gallery" },
-        { to: "/store", text: "Store" },
+        // { to: "/store", text: "Store" },
         { to: "/courses", text: "Courses" },
         { to: "/contacts", text: "Contacts" },
     ]

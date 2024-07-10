@@ -88,6 +88,9 @@ export default function Store() {
         }
     };
 
+    // Check if user is defined and not null
+    const isAdmin = user && user.admin;
+
     return (
         <section className="py-20 px-12">
             <h1 className="text-4xl font-bold mb-6">Store</h1>
@@ -122,7 +125,7 @@ export default function Store() {
                                 <h2 className="text-2xl font-bold">{product.name}</h2>
                                 <p>{product.description}</p>
                                 <p>${product.price}</p>
-                                {user.admin && (
+                                {isAdmin && (
                                     <>
                                         <button onClick={() => setEditingProduct(product)} className="bg-yellow-500 text-white px-4 py-2 rounded mt-2">Edit</button>
                                         <button onClick={() => handleDeleteProduct(product.id)} className="bg-red-500 text-white px-4 py-2 rounded mt-2 ml-2">Delete</button>
@@ -133,7 +136,7 @@ export default function Store() {
                     </div>
                 ))}
             </div>
-            {user.admin && (
+            {isAdmin && (
                 <div className="mt-6">
                     <h2 className="text-2xl font-bold mb-4">Add New Product</h2>
                     <input

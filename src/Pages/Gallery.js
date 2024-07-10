@@ -9,7 +9,7 @@ import 'animate.css';
 
 export default function Gallery() {
     const { style: currentStyle } = useParams();
-    const styles = ["all", "tanjore", "sculpture", "resin", "relief", "marble", "decoupage", "clay", "canvas"];
+    const styles = ["all", "sculpture", "tanjore", "resin", "relief", "marble", "decoupage", "clay", "canvas"];
     const { user, setLoading } = useUser();
     const navigate = useNavigate();
     const [images, setImages] = useState([]);
