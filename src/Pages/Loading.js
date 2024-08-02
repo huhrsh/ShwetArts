@@ -20,7 +20,9 @@ const Loading = () => {
             <div className="blob"></div>
             {/* <div className="blob"></div> */}
             {/* <div className="blob"></div> */}
-            <div className='absolute w-screen text-9xl font-[outfit] text-white font-bold justify-center items-center flex  h-screen top-0 left-0 backdrop-blur-none z-10'>ShwetArts</div>
+            <div className='absolute w-screen text-9xl font-[outfit] text-white font-bold justify-center items-center flex  h-screen top-0 left-0 backdrop-blur-none z-10
+            max-sm:text-7xl
+            '>ShwetArts</div>
         </div>
     );
 };
