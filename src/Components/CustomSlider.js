@@ -82,7 +82,8 @@ const CustomSlider = ({ images }) => {
         ))}
       </Slider>
       <button
-        className="prev-button absolute top-1/2 transform -translate-y-1/2 left-4 bg-white bg-opacity-50 text-black px-4 py-2 rounded-full"
+        className="prev-button absolute top-1/2 transform -translate-y-1/2 left-4 bg-white bg-opacity-50 text-black px-4 py-2 rounded-full 
+        max-sm:scale-110"
         onClick={goPrev}
         disabled={isAnimating}
         style={{ cursor: isAnimating ? 'not-allowed' : 'pointer' }}
@@ -90,7 +91,8 @@ const CustomSlider = ({ images }) => {
         &#10094;
       </button>
       <button
-        className="next-button absolute top-1/2 transform -translate-y-1/2 right-4 bg-white bg-opacity-50 text-black px-4 py-2 rounded-full"
+        className="next-button absolute top-1/2 transform -translate-y-1/2 right-4 bg-white bg-opacity-50 text-black px-4 py-2 rounded-full 
+        max-sm:scale-110"
         onClick={goNext}
         disabled={isAnimating}
         style={{ cursor: isAnimating ? 'not-allowed' : 'pointer' }}

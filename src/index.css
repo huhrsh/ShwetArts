@@ -143,3 +143,17 @@ html{
   background: #6b7280;
   cursor: pointer;
 }
+
+
+@media (max-width: 600px) {
+  .Toastify__toast-container {
+      width: 90% !important;
+      left: 50% !important;
+      top:2% !important;
+      transform: translateX(-50%) !important;
+  }
+
+  .Toastify__toast {
+      @apply text-lg
+  }
+}

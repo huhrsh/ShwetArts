@@ -63,7 +63,7 @@ export default function SignIn() {
                     const admin = await getDoc(doc(db, 'admin', userSignIn.user.uid))
                     if (admin.exists()) {
                         setUser({ uid: userSignIn.user.uid, ...admin.data()})
-                        navigate('/admin-dashboard')
+                        navigate('/')
                     }
                 }
             }
@@ -95,7 +95,7 @@ export default function SignIn() {
                     else if (adminSnap.exists()) {
                         setUser({ uid: user.uid, ...adminSnap.data()})
                         delaySetLoading()
-                        navigate('/admin-dashboard')
+                        navigate('/')
                     }
                     else {
                         const userDoc = await setDoc(doc(db, 'users', user.uid), {

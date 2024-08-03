@@ -112,9 +112,9 @@ export default function Gallery() {
     }
 
     return (
-        <section className="py-6 px-12 flex flex-col pb-32">
+        <section className="py-6 px-12 flex flex-col pb-32 max-sm:px-6">
             <div className="flex justify-between items-center mb-4">
-                <div className="flex gap-4">
+                <div className="flex gap-4 max-sm:grid max-sm:grid-cols-3 max-sm:grid-flow-row max-sm:gap-2">
                     {styles.map((name, index) => (
                         <Link
                             key={index}
@@ -122,7 +122,8 @@ export default function Gallery() {
                             onClick={(e) => handleClick(e, name)}
                             className={`px-4 py-2 relative capitalize rounded-md overflow-hidden ${activeStyle === name ? 'bg-gray-800 text-white' : 'hover:text-gray-800'}
                             before:absolute before:w-0 before:h-full before:bg-gray-200 before:top-0 before:hover:left-0 before:-z-10 before:left-[50%] before:hover:w-full before:transition-all before:duration-200 before:ease-in-out
-                    `}
+                            max-sm:border
+                            `}
                         >
                             {name}
                         </Link>
@@ -134,7 +135,7 @@ export default function Gallery() {
                     <h2 className="py-1 font-extrabold text-4xl text-white"
                         style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
                     >Add New Image:</h2>
-                    <div className='flex gap-2 items-center'>
+                    <div className='flex gap-2 items-center max-sm:flex-col max-sm:items-start'>
                         <select
                             className="border-gray-300 text-lg border rounded-md px-2 py-2"
                             value={newImageStyle}
@@ -161,7 +162,7 @@ export default function Gallery() {
                     </div>
                 </div>
             )}
-            <div className="masonry">
+            <div className="masonry max-sm:grid">
                 {images.map((image) => (
                     <div key={image.id} className="masonry-item border rounded-md overflow-hidden relative group">
                         {user?.admin && (
@@ -183,9 +184,9 @@ export default function Gallery() {
                 ))}
             </div>
             {showPopup && (
-                <div className={`fixed top-0 left-0 w-full h-full bg-white bg-opacity-90 flex justify-center items-center z-50 duration-300 animate__animated ${currentAnimation} `} onAnimationEnd={()=>setCurrentAnimation("")}>
-                    <div className="max-w-5xl w-full ">
-                        <img src={selectedImage.url} alt={selectedImage.id} className="max-w-full max-h-full object-contain" />
+                <div className={`fixed top-0 left-0 w-screen h-screen bg-white bg-opacity-90 flex justify-center items-center z-50 duration-300 animate__animated ${currentAnimation} `} onAnimationEnd={()=>setCurrentAnimation("")}>
+                    <div className="max-w-5xl w-full flex items-center justify-center">
+                        <img src={selectedImage.url} alt={selectedImage.id} className="max-w-[90vw] max-h-[90vh] object-contain" />
                         <button
                             className="absolute text-lg top-2 right-4 bg-black text-white px-3 py-1 rounded-md hover:shadow-lg"
                             onClick={() => handleCloseButton()}

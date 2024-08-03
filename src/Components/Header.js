@@ -65,7 +65,7 @@ const Header = () => {
 
     return (
         <>
-            {/* <Loading /> */}
+            <Loading />
             <header className="px-5 py-2.5 sticky top-0 left-0 w-screen z-30 flex justify-between items-center 
             max-sm:h-20 
             ">
@@ -94,19 +94,19 @@ const Header = () => {
                 <>
                     <img onClick={() => { setShowMenu(!showMenu) }} src={menu} alt="menu" className={`sm:hidden h-10 bg-white transition-all duration-500 rounded-lg ${showMenu && "-rotate-90"}`} />
                 </>
-                <div className={`flex flex-col gap-4 px-0 border text-white text-2xl font-medium z-[100] bg-white w-full absolute left-0 rounded-none ${showMenu?"h-screen py-5 top-20":"h-0 border-none top-0"} overflow-hidden transition-all duration-700 bg-opacity-100`}>
+                <div className={`flex flex-col gap-4 px-0 border text-white text-2xl font-medium z-[100] bg-white w-full absolute left-0 rounded-none ${showMenu?"h-screen py-5 top-20":"h-0 border-none top-0"} overflow-hidden transition-all duration-700 bg-opacity-100 px-6`}>
                     {links.map((link, index) => (
-                        <Link onClick={(e) => { handleClick(e, link.to) }} className="border-2 text-3xl border-transparent font-extrabold hover:border-[#333] hover:bg-white hover:bg-opacity-40 transition-all duration-200 px-4 py-1 rounded-full"
+                        <Link onClick={(e) => { handleClick(e, link.to) }} className="border text-3xl border-transparent font-extrabold hover:border-[#333] border-[#ddd] hover:bg-white hover:bg-opacity-40 transition-all duration-200 px-4 py-1 rounded-full"
                             style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
                             to={link.to} key={index}>{link.text}</Link>
                     ))}
                     {user ?
                         signedInLinks.map((link, index) => (
-                            <Link onClick={(e) => { handleClick(e, link.to) }} className="border-2 text-3xl border-transparent font-extrabold hover:border-[#333] hover:bg-white hover:bg-opacity-40 transition-all duration-200 px-4 py-1 rounded-full"
+                            <Link onClick={(e) => { handleClick(e, link.to) }} className="border text-3xl border-transparent font-extrabold hover:border-[#333] border-[#ddd] hover:bg-white hover:bg-opacity-40 transition-all duration-200 px-4 py-1 rounded-full"
                                 style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
                                 to={link.to} key={index}>{link.text}</Link>
                         )) : signedOutLinks.map((link, index) => (
-                            <Link onClick={(e) => { handleClick(e, link.to) }} className="border-2 text-3xl border-transparent font-extrabold hover:border-[#333] hover:bg-white hover:bg-opacity-40 transition-all duration-200 px-4 py-1 rounded-full"
+                            <Link onClick={(e) => { handleClick(e, link.to) }} className="border text-3xl border-transparent font-extrabold hover:border-[#333] border-[#ddd] hover:bg-white hover:bg-opacity-40 transition-all duration-200 px-4 py-1 rounded-full"
                                 style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
                                 to={link.to} key={index}>{link.text}</Link>
                         ))}

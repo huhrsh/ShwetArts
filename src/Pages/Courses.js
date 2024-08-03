@@ -146,22 +146,22 @@ export default function Courses() {
     }
 
     return (
-        <section className="py-6 pb-32 px-12 flex flex-col ">
+        <section className="py-6 pb-32 px-12 flex flex-col max-sm:px-6 max-sm:pb-6">
             {user?.admin && (
                 <div className='py-3 pt-0 mb-8 flex flex-col gap-2'>
                     <h2 className="py-1 font-extrabold text-4xl text-white"
                         style={{ textShadow: '-1.11px -1.11px 0 #000, 1.11px -1.11px 0 #000, -1.11px 1.11px 0 #000, 1.11px 1.11px 0 #000' }}
                     >Add New Course:</h2>
                     <div className='flex gap-2 items-start justify-center flex-col'>
-                        <div className='flex w-full gap-4'>
+                        <div className='flex w-full gap-4 max-sm:flex-col'>
                             <input
                                 type="text"
                                 placeholder="Title"
-                                className="border-gray-300 text-lg border rounded-md px-2 py-2 outline-none transition-all duration-200 ease-in-out hover:shadow-lg w-1/3"
+                                className="border-gray-300 text-lg border rounded-md px-2 py-2 outline-none transition-all duration-200 ease-in-out hover:shadow-lg w-1/3 max-sm:w-full"
                                 value={newCourse.title}
                                 onChange={(e) => setNewCourse({ ...newCourse, title: e.target.value })}
                             />
-                            <label className="flex items-center gap-2 w-1/4">
+                            <label className="flex items-center gap-2 w-1/4 max-sm:w-full">
                                 <input
                                     type="checkbox"
                                     checked={newCourse.available}
@@ -169,7 +169,7 @@ export default function Courses() {
                                 />
                                 Currently Available
                             </label>
-                            <label className="flex items-center gap-2 w-1/4">
+                            <label className="flex items-center gap-2 w-1/4 max-sm:w-full">
                                 <input
                                     type="checkbox"
                                     checked={newCourse.online}
@@ -177,7 +177,7 @@ export default function Courses() {
                                 />
                                 Online
                             </label>
-                            <label className="flex items-center gap-2 w-1/4">
+                            <label className="flex items-center gap-2 w-1/4 max-sm:w-full">
                                 <input
                                     type="checkbox"
                                     checked={newCourse.offline}
@@ -189,7 +189,7 @@ export default function Courses() {
                         <textarea
                             type="text"
                             placeholder="Description"
-                            className="border-gray-300 text-lg border rounded-md px-2 py-2 outline-none w-3/4 min-h-32"
+                            className="border-gray-300 text-lg border rounded-md px-2 py-2 outline-none w-3/4 min-h-32 max-sm:w-full"
                             value={newCourse.description}
                             onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
                         />
@@ -209,7 +209,7 @@ export default function Courses() {
                     </div>
                 </div>
             )}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4 max-sm:grid-cols-1">
                 {courses.map((course) => (
                     <div key={course.id} className={`flex flex-col h-full border rounded-md gap-2 rounded-bl-none rounded-br-none overflow-hidden relative ${!course.available ? 'bg-gray-100 cursor-not-allowed' : ''}`}>
                         {user?.admin && (
@@ -253,7 +253,7 @@ export default function Courses() {
                 ))}
             </div>
             {showPopup && selectedCourse && (
-                <div className={`fixed top-0 left-0 w-full h-full bg-white bg-opacity-90 flex justify-center items-center z-50 animate__animated ${currentAnimation}`}>
+                <div className={`fixed top-0 left-0 w-full h-full bg-white bg-opacity-90 flex justify-center items-center z-50 max-sm:w-[95vw] max-sm:left-[2.5vw] animate__animated ${currentAnimation}`}>
                     <div className="max-w-3xl w-full bg-white border border-gray-900 p-4 rounded-md">
                         <button
                             className={`absolute top-2 right-2 bg-black text-white px-3 py-1 rounded-md hover:shadow-lg`}
@@ -301,7 +301,7 @@ export default function Courses() {
                                 />
                                 Offline
                             </label>
-                            <div className="flex gap-2 items-center">
+                            <div className="flex gap-2 items-center max-sm:flex-col max-sm:items-start">
                                 <input
                                     type="file"
                                     className="border-gray-300 border rounded-md px-2 py-1.5"
