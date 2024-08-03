@@ -1,14 +1,5 @@
 import { useState } from "react";
-// import Header from "./Components/Header";
-// import tanjore from "./Assets/Images/tanjore.jpeg"
-// import relief from "./Assets/Images/relief.jpg"
-// import resin from "./Assets/Images/resin.jpg"
-import img3 from "./Assets/Images/pexels-w-w-889839.jpg"
-// import decoupage from "./Assets/Images/decoupage.jpeg"
-// import clay from "./Assets/Images/clay.jpeg"
-// import marble from "./Assets/Images/marble.jpeg"
 import Slider from './Components/CustomSlider'
-
 import sculptures from "./Assets/Images/cropped-IMG_4192.jpeg"
 import sculptures2 from "./Assets/Images/cropped-IMG_41922.jpeg"
 import tanjore from "./Assets/Images/Client/tanjouronwall (1).png"

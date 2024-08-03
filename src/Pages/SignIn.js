@@ -126,11 +126,11 @@ export default function SignIn() {
                     <h1 className='text-center w-fit text-5xl max-sm:text-3xl leading-relaxed antialiased font-bold text-transparent bg-gradient-to-tl from-blue-500 to-sky-500 bg-clip-text'>Welcome back</h1>
                     <div className='border hover:shadow-lg focus-within:shadow-lg focus-within:scale-105  group p-3 py-0 rounded-xl transition-all duration-200 flex w-full gap-3 items-center'>
                         <h2 className=' text-sky-500 text-lg font-normal'>Email:</h2>
-                        <input ref={emailInputRef} className='outline-none w-full h-full px-2 py-4 font-normal text-gray-300' type='email' placeholder='johndoe@gmail.com' onChange={((e) => setEmail(e.target.value))} value={email} />
+                        <input ref={emailInputRef} className='outline-none w-full h-full px-2 py-4 font-normal text-gray-600' type='email' placeholder='johndoe@gmail.com' onChange={((e) => setEmail(e.target.value))} value={email} />
                     </div>
                     <div className='border hover:shadow-lg focus-within:shadow-lg focus-within:scale-105  group p-3 py-0 rounded-xl transition-all duration-200 flex w-full gap-3 items-center'>
                         <h2 className=' text-sky-500 text-lg font-normal'>Password:</h2>
-                        <input ref={passwordInputRef} className='outline-none w-full h-full px-2 py-4 font-normal text-gray-300' type={visiblePassword1 ? "text" : "password"} placeholder='John@Do3' onChange={((e) => setPassword(e.target.value))} value={password} />
+                        <input ref={passwordInputRef} className='outline-none w-full h-full px-2 py-4 font-normal text-gray-600' type={visiblePassword1 ? "text" : "password"} placeholder='John@Do3' onChange={((e) => setPassword(e.target.value))} value={password} />
                         {!visiblePassword1 ?
                             <img className='h-6 pr-2 cursor-pointer transition-all' src={eye} onClick={() => { setVisiblePassword1(!visiblePassword1) }} alt='eye' />
                             :
